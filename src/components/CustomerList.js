@@ -4,7 +4,12 @@ import Customer from "./Customer";
 class CustomerList extends Component {
     onDelete = id => {
         this.props.onDelete(id);
-        console.log("Customer list ", id);
+        // console.log("Customer list ", id);
+    };
+
+    onEdit = data => {
+        this.props.onEdit(data);
+        // console.log("Customer list ", data);
     };
 
     render () {
@@ -22,7 +27,7 @@ class CustomerList extends Component {
                     </thead>
                     <tbody>
                         {customers.map(customer => {
-                            return <Customer customer={customer} key={customer.id} onDelete={this.onDelete}/>;
+                            return <Customer customer={customer} key={customer.id} onEdit={this.onEdit} onDelete={this.onDelete}/>;
                         })}
                     </tbody>
                 </table>

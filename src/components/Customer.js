@@ -2,8 +2,13 @@ import React, { Component } from "react";
 
 class Customer extends Component {
     onDelete = () => {
-        console.log('Customer on Delete');
+        // console.log('Customer on Delete');
         this.props.onDelete(this.props.customer.id);
+    };
+
+    onEdit = () => {
+        // console.log("Customer on Edit");
+        this.props.onEdit(this.props.customer);
     };
 
     render () {
@@ -14,7 +19,7 @@ class Customer extends Component {
                 <td>{`${first_name} ${last_name}`}</td>
                 <td>{`${email}`}</td>
                 <td>
-                    <button className="mini ui blue button">Edit</button>
+                    <button className="mini ui blue button" onClick={this.onEdit}>Edit</button>
                     <button className="mini ui red button" onClick={this.onDelete}>Delete</button>
                 </td>
             </tr>

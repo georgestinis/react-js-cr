@@ -8,6 +8,7 @@ import "./app.css";
 class App extends Component {
     state = {
         customers: [],
+        customer: {},
         loader: false,
         url: "http://localhost/laravel-rest-api/public/api/customers"
     };
@@ -25,13 +26,57 @@ class App extends Component {
         this.getCustomers();
     };
 
+    deleteCustomer = async id => {
+        this.setState({ loader: true });
+        await axios.delete(`${this.state.url}/${id}`);
+
+        this.getCustomers();
+    };
+
+    createCustomer = async data => {
+        this.setState({ loader: true });
+        await axios.post(this.state.url, {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email
+        });
+
+        this.getCustomers();
+    };
+
+    editCustomer = async data => {
+        this.setState({ customer: {}, loader: true });
+        await axios.put(`${this.state.url}/${data.id}`, {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email 
+        });
+
+        this.getCustomers();
+    };
+
     componentDidMount(){
         this.getCustomers();
     };
 
     onDelete = id => {
-        console.log('app ', id);
+        // console.log("app ", id);
         this.deleteCustomer(id);
+    };
+
+    onEdit = data => {
+        // console.log("app ", data);
+        this.setState({ customer: data });
+    };
+
+    onFormSubmit = (data) => {
+        // console.log("app ", data)
+        if (data.isEdit) {
+            this.editCustomer(data);
+        }
+        else {
+            this.createCustomer(data);
+        }
     };
 
     render () {
@@ -45,11 +90,11 @@ class App extends Component {
                     </div>
                 </div>
                 <div className="ui main container">
-                    <MyForm />
+                    <MyForm customer={this.state.customer} onFormSubmit={this.onFormSubmit} />
                     {
                         this.state.loader ? <Loader /> : ""
                     }
-                    <CustomerList customers={this.state.customers} onDelete={this.onDelete}/>
+                    <CustomerList customers={this.state.customers} onEdit={this.onEdit} onDelete={this.onDelete}/>
                 </div>
             </div>
         ); 
