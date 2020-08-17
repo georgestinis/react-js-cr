@@ -3,6 +3,7 @@ import Customer from "./Customer";
 
 class CustomerList extends Component {
     render () {
+        const customers = this.props.customers;
         return (
             <div className="data">
                 <table className="ui celled table">
@@ -15,7 +16,9 @@ class CustomerList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <Customer />
+                        {customers.map(customer => {
+                            return <Customer customer={customer} key={customer.id}/>;
+                        })}
                     </tbody>
                 </table>
             </div>
