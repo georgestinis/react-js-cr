@@ -23,7 +23,7 @@ class MyForm extends Component {
                 </div>
             </form>    
         );
-    }
+    };
 }
 
 export default MyForm;
